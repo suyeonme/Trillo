@@ -14,9 +14,17 @@
 
     --shadow-dark: 0 2rem 6rem rgba(0,0,0,.3);
     --shadow-light: 0 2rem 5rem rgba(0,0,0,.06);
+
+    --transition-medium: all .4s;
     
     --line: 1px solid var(--color-grey-light-2);
 }
+
+$bp-largest: 75em;      // 1200px ,  width satrt to shrink at almost 1200px.
+$bp-large: 68.75em;     // 1100px , breakpoint which start to break (font, layout, etc)
+$bp-medium: 56.25em;    // 900px
+$bp-small: 37.5em;      // 600px 
+$bp-smallest: 31.25em;  // 500px 
 
 * {
     padding: 0;
@@ -32,6 +40,10 @@
 html {
     box-sizing: border-box;
     font-size: 65.5%;
+
+    @media only screen and (max-width: $bp-large) {
+        font-size: 50%; // 8px
+    }
 }
 
 body {
@@ -45,3 +57,5 @@ body {
 
     min-height: 100vh;
 }
+
+

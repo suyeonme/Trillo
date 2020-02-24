@@ -10,10 +10,21 @@
 // SEARCH
 .search {
     flex: 0 0 40%;
-
     display: flex;                      // flex-item can be a flex-container. It can be nested.
     justify-content: center;        
     align-items: center;
+
+    position: relative;
+
+    @media only screen and (max-width: $bp-smallest) {      // with flex-wrap, align-content.
+        order: 1;                                           // default is 0.
+        flex: 0 0 100%;
+        background-color: var(--color-grey-light-2);
+    }
+
+    &:hover &__suggestion {
+        display: block;
+    }
 
     &__input {
         font-family: inherit;           // input doesn't apply global setting.
@@ -61,6 +72,45 @@
         height: 2rem;                       // SVG icon !== PNG icon set 'font-size'
         fill: var(--color-grey-dark-3);     // Change the color of SVG icon.
     }
+
+    // SEARCH SUGGESTION
+    &__suggestion {
+        @include dropbox;
+        
+        &-item {
+        @include dropbox-bottomLine;
+        width: 40rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        font-size: 1.3rem;
+        cursor: pointer;
+
+        &:hover {
+            @include dropbox-hover;
+        }
+        }
+
+        &-img {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            margin-right: 2rem;
+        }
+
+        &-info {
+            margin-right: auto;
+        }
+
+        &-stars {
+            margin-right: 2rem;
+        }
+
+        &-averageRating {
+            color: var(--color-primary);
+        }
+    }
 }
 
 
@@ -70,6 +120,7 @@
     display: flex;
     align-items: center;
     align-self: stretch;            // For user-nav > *. 
+    color: var(--color-grey-dark-2);;
 
     & > * {
         padding: 0 2rem;
@@ -114,9 +165,95 @@
         border-radius: 50%;
         margin-right: 1rem;
     }
+
+    // USER DROPBOX 
+    &__user {
+        position: relative;
+    }
+
+    &__user:hover &__dropbox {
+        display: block;
+    }
+
+    &__dropbox {
+        @include dropbox;
+        transform: translate(-17.8%, 0);
+        width: 14rem;
+        font-size: 1.3rem;
+
+        &__icon {
+            height: 1.5rem;
+            width: 1.5rem;
+            margin-right: 1.5rem;
+            fill: currentColor;
+        }
+
+        &-item {
+            padding: 1.3rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            @include dropbox-bottomLine;
+
+            &:hover {
+                @include dropbox-hover;
+            }
+        }
+
+        &-link {
+            text-decoration: none;
+            color: currentColor;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+
+    // CHATBOX  
+    &__chat {
+        position: relative;
+    }
+
+    &__chat:hover &__chatbox {
+        display: block;
+    }
+
+    &__chatbox {
+        @include dropbox;
+        transform: translate(-12.2rem, 0);
+        
+        &__item {
+            display: flex;
+            width: 30rem;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            @include dropbox-bottomLine;
+
+            &:hover {
+                @include dropbox-hover;
+            }
+        }
+
+        &__img {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            margin-right: 1.5rem;
+        }
+
+        &__preview {
+            margin-right: auto;
+            font-size: 1.3rem;
+        }
+
+        &__timestamp {
+            font-size: 1rem;
+            color: var(--color-primary);
+        }
+    }
 }
-
-
+    
 /////////////////////////////////////
 // SIDE NAVIGATION  
 
@@ -126,11 +263,24 @@
     list-style: none;
     margin-top: 3.5rem;
 
+    @media only screen and (max-width: $bp-medium) {    
+        display: flex;
+        margin: 0;
+    }
+
     &__item {
         position: relative; // &__item::before's parents
 
+        @media only screen and (max-width: $bp-medium) {    
+            flex: 1;
+        }
+
         &:not(:last-child) {
             margin-bottom: .5rem;
+
+            @media only screen and (max-width: $bp-medium) {    
+                margin-bottom: 0;
+            }
         }
     }
 
@@ -175,6 +325,16 @@
 
         display: flex;
         align-items: center;
+
+        @media only screen and (max-width: $bp-medium) {    
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        @media only screen and (max-width: $bp-small) {    
+            flex-direction: column;
+            padding: 1.5rem .5rem;
+        }
     }
 
     &__icon {
@@ -182,6 +342,13 @@
         height: 1.75rem;
         margin-right: 2rem;
         fill: currentColor;
+
+        @media only screen and (max-width: $bp-small) {    
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0;
+            margin-bottom: .7rem;
+        }
     }
 }
 
@@ -192,6 +359,10 @@
     color: var(--color-grey-light-4);
     text-align: center;
     padding: 2.5rem;
+
+    @media only screen and (max-width: $bp-medium) {    
+        display: none;
+    }
 } 
 
 
@@ -203,6 +374,27 @@
     &__photo {
         width: 100%;
         display: block; // no space between photos
+    }
+
+    &__item {
+        position: relative;
+    }
+
+    &__item:hover &__photo{
+        filter: brightness(30%);
+        transition: var(--transition-medium);
+    }
+
+    &__item:hover &__caption {
+        display: block;
+        transition: var(--transition-medium);
+    }
+
+    &__caption {
+        @include absolute-center;
+        color: #fff;
+        font-size: 1.5rem;
+        display: none;
     }
 }
 
@@ -219,6 +411,11 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 1.5rem 3rem;
+
+        @media only screen and (max-width: $bp-small) {    
+            font-size: 1.8rem;
+            padding: 1.25rem 2rem;
+        }
     }
 
     &__stars {                  
@@ -256,15 +453,27 @@
         justify-content: center;
         align-items: center;
 
+        @media only screen and (max-width: $bp-small) {    
+            padding: 0 1.5rem;
+        }
+
         &-average {
             font-size: 2.25rem;
             font-weight: 300;
             margin-bottom: -3px;
+
+            @media only screen and (max-width: $bp-small) {    
+                font-size: 1.8rem;
+            }
         }
 
         &-count {
             font-size: .8rem;
             text-transform: uppercase;
+
+            @media only screen and (max-width: $bp-small) {    
+                font-size: .5rem;
+            }
         }
     }
 }
@@ -353,15 +562,18 @@
         margin-right: .7rem;
 
         // Older browsers
-        //background-image: url(../img/chevron-thin-right.svg);
-        //background-size: cover;
+        background-image: url(../img/chevron-thin-right.svg);
+        background-size: cover;
 
         // Newer browsers - mask
-        background-color: var(--color-primary);
-        -webkit-mask-image: url(../img/chevron-thin-right.svg);     // enable to change color of background image.
-        -webkit-mask-size: cover;
-        mask-image: url(../img/chevron-thin-right.svg);
-        mask-size: cover;
+        @supports(-webkit-mask-image: url()) or (mask-image: url()) {
+            background-color: var(--color-primary);
+            -webkit-mask-image: url(../img/chevron-thin-right.svg);     // enable to change color of background image.
+            -webkit-mask-size: cover;
+            mask-image: url(../img/chevron-thin-right.svg);
+            mask-size: cover;
+            background-image: none;
+        }
     }
 }
 
@@ -380,7 +592,7 @@
     }
 
     &__friends {
-
+        display: flex;              // photos always stay side by side regardless of viewport!
     }
 
     &__photo {
@@ -391,7 +603,7 @@
         height: 4rem;
 
         &:not(:last-child) {
-            margin-right: -1.5rem;
+            margin-right: -2rem;
         }
     }
 }
@@ -406,6 +618,11 @@
     padding: 3rem;
     margin-bottom: 3.5rem;
     overflow: hidden;
+
+    @media only screen and (max-width: $bp-medium) {    
+        padding: 2rem;
+        margin-bottom: 3rem;
+    }
 
     &__text {
         margin-bottom: 2rem;
@@ -466,6 +683,10 @@
 .cta {
     padding: 3.5rem;
     text-align: center;
+
+    @media only screen and (max-width: $bp-medium) {    
+        padding: 2.5rem;
+    }
 
     &__book-now {
         font-size: 2rem;
